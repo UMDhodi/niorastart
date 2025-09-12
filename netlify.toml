@@ -5,10 +5,9 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Enable Netlify Forms
-[[plugins.inputs]]
-  # Add forms support
-  functions = "netlify/functions"
+  [plugins.inputs]
+    # Add forms support
+    functions = "netlify/functions"
 
 [[redirects]]
   from = "/*"
