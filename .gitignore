@@ -50,4 +50,3 @@ postcss.config.mjs
 public/
 src/
 tsconfig.json
-netlify.toml
