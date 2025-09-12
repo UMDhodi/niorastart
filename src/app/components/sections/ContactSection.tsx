@@ -1,44 +1,84 @@
 export default function ContactSection() {
   return (
-    <section className="p-8 bg-gray-100">
-      <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
-      <form
-        name="contact"
-        method="POST"
-        data-netlify="true"
-        className="flex flex-col gap-4 max-w-md"
-      >
-        {/* Required hidden input */}
-        <input type="hidden" name="form-name" value="contact" />
+    <section
+      id="contact"
+      className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
+    >
+      <div className="rounded-lg border border-gray-800 bg-gradient-to-r from-gray-800/60 to-gray-900 p-8">
+        <h3 className="text-2xl font-semibold text-white mb-4">
+          Get In Touch
+        </h3>
+        <p className="text-gray-300 mb-6">
+          Fill out the form below and our team will get back to you shortly.
+        </p>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Your Name"
-          className="p-2 border rounded"
-          required
-        />
-        <input
-          type="email"
-          name="email"
-          placeholder="Your Email"
-          className="p-2 border rounded"
-          required
-        />
-        <textarea
-          name="message"
-          placeholder="Your Message"
-          className="p-2 border rounded"
-          rows={4}
-          required
-        />
-        <button
-          type="submit"
-          className="bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          Send
-        </button>
-      </form>
+          {/* Hidden field required for Netlify */}
+          <input type="hidden" name="form-name" value="contact" />
+
+          {/* Name */}
+          <div className="flex flex-col">
+            <label className="text-gray-300 text-sm mb-2">Name</label>
+            <input
+              type="text"
+              name="name"
+              placeholder="Enter your name"
+              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
+              required
+            />
+          </div>
+
+          {/* Phone */}
+          <div className="flex flex-col">
+            <label className="text-gray-300 text-sm mb-2">Phone</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone number"
+              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
+            />
+          </div>
+
+          {/* Email */}
+          <div className="flex flex-col md:col-span-2">
+            <label className="text-gray-300 text-sm mb-2">Email</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
+              required
+            />
+          </div>
+
+          {/* Message */}
+          <div className="flex flex-col md:col-span-2">
+            <label className="text-gray-300 text-sm mb-2">Message</label>
+            <textarea
+              name="message"
+              rows={5}
+              placeholder="Write your message..."
+              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
+              required
+            ></textarea>
+          </div>
+
+          {/* Submit */}
+          <div className="md:col-span-2">
+            <button
+              type="submit"
+              className="w-full rounded-md bg-orange-200 px-6 py-3 font-medium text-gray-900 hover:bg-orange-100 transition"
+            >
+              Send Message
+            </button>
+          </div>
+        </form>
+      </div>
     </section>
   );
 }
