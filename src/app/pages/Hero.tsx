@@ -25,6 +25,7 @@ export default function Hero() {
                   alt="A descriptive alt text for the image"
                   fill
                   className="object-contain" 
+                  unoptimized
                 />
               </div>
               <div>
@@ -42,6 +43,7 @@ export default function Hero() {
                   alt="A descriptive alt text for the image"
                   fill
                   className="object-cover"
+                  unoptimized
             />
           </div>
         </div>

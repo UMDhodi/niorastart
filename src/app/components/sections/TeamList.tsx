@@ -29,6 +29,7 @@ export default function TeamList() {
                 width={96}  // matches w-24 (24 * 4 = 96px)
                 height={96}
                 className="object-cover"
+                unoptimized
               />
             </div>
 

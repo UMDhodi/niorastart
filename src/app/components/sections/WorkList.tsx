@@ -27,6 +27,7 @@ export default function WorkList() {
                 alt={c.title}
                 fill
                 className="object-cover"
+                unoptimized
               />
             </div>
 
