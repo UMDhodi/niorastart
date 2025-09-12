@@ -16,6 +16,7 @@ export default function Footer() {
                 width={50} // Corresponds to w-12 (12*4 = 48px)
                 height={50} // Corresponds to h-12 (12*4 = 48px)
                 className="rounded-md"
+                unoptimized
               />
             </div>
             <p className="text-gray-400 mt-3">Niora Star — digital marketing & consultancy.</p>
