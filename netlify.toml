@@ -2,12 +2,11 @@
   command = "npm run build"
   publish = ".next"
 
+[functions]
+  directory = "netlify/functions"
+
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-  [plugins.inputs]
-    # Add forms support
-    functions = "netlify/functions"
 
 [[redirects]]
   from = "/*"
