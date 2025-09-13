@@ -8,9 +8,7 @@ export default function ContactSection() {
       className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
     >
       <div className="rounded-lg border border-gray-800 bg-gradient-to-r from-gray-800/60 to-gray-900 p-8">
-        <h3 className="text-2xl font-semibold text-white mb-4">
-          Get In Touch
-        </h3>
+        <h3 className="text-2xl font-semibold text-white mb-4">Get In Touch</h3>
         <p className="text-gray-300 mb-6">
           Fill out the form below and our team will get back to you shortly.
         </p>
@@ -23,11 +21,15 @@ export default function ContactSection() {
           action="/thank-you"
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Hidden Netlify inputs */}
+          {/* Required hidden inputs for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
+          <input type="hidden" name="redirect" value="/thank-you" />
+
+          {/* Honeypot field */}
           <p className="hidden">
             <label>
-              Don’t fill this out: <input name="bot-field" />
+              Don’t fill this out if you’re human:{" "}
+              <input name="bot-field" />
             </label>
           </p>
 
@@ -40,17 +42,6 @@ export default function ContactSection() {
               placeholder="Enter your name"
               className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
-            />
-          </div>
-
-          {/* Phone */}
-          <div className="flex flex-col">
-            <label className="text-gray-300 text-sm mb-2">Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Enter your phone number"
-              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
             />
           </div>
 
