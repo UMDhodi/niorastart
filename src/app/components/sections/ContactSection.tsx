@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-export default function ContactPage() {
+export default function ContactSection() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -13,7 +13,7 @@ export default function ContactPage() {
     try {
       const response = await fetch("/", {
         method: "POST",
-        body: new URLSearchParams(formData as any).toString(),
+        body: new URLSearchParams(formData as any).toString(), // 🔑 still works fine
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
@@ -23,7 +23,8 @@ export default function ContactPage() {
       } else {
         setStatus("error");
       }
-    } catch (err) {
+    } catch {
+      // ✅ no `err` variable → no ESLint error
       setStatus("error");
     }
   };
