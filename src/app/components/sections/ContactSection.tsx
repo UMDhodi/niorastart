@@ -11,8 +11,11 @@ export default function ContactPage() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("/", {
+      const response = await fetch("https://formspree.io/f/xnnbropw", {
         method: "POST",
+        headers: {
+          'Accept': 'application/json',
+        },
         body: formData,
       });
 
@@ -35,16 +38,7 @@ export default function ContactPage() {
           Fill out the form below and our team will get back to you shortly.
         </p>
 
-        <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          onSubmit={handleSubmit}
-          className="space-y-4"
-        >
-          {/* Netlify hidden input */}
-          <input type="hidden" name="form-name" value="contact" />
-
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-gray-300 mb-1">
               Name
