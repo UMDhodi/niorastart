@@ -5,101 +5,116 @@ import { useState } from "react";
 export default function ContactSection() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-    const form = event.currentTarget;
+    const form = e.currentTarget;
     const formData = new FormData(form);
 
     try {
-      await fetch("/", {
+      const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams(formData as any).toString(),
       });
-      setStatus("success");
-      form.reset();
-    } catch (err) {
-      console.error(err);
+
+      if (response.ok) {
+        setStatus("success");
+        form.reset();
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
       setStatus("error");
     }
   };
 
   return (
-    <section className="bg-gray-950 py-16">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="w-full p-10 rounded-2xl shadow-lg bg-gray-900">
-          <h2 className="text-3xl font-bold mb-3 text-white">Get In Touch</h2>
-          <p className="mb-8 text-gray-400">
-            Fill out the form below and our team will get back to you shortly.
-          </p>
+    <section id="contact" className="w-full bg-gray-950 py-16 px-6">
+      <div className="max-w-5xl mx-auto">
+        <h2 className="text-3xl font-bold text-white mb-4">Get In Touch</h2>
+        <p className="text-gray-400 mb-8">
+          Fill out the form below and we’ll get back to you shortly.
+        </p>
 
-          <form
-            name="contact"
-            method="POST"
-            data-netlify="true"
-            data-netlify-honeypot="bot-field"
-            onSubmit={handleSubmit}
-            className="space-y-6"
+        {/* Netlify requires this hidden form for build-time parsing */}
+        <form name="contact" data-netlify="true" hidden>
+          <input type="text" name="name" />
+          <input type="email" name="email" />
+          <textarea name="message" />
+        </form>
+
+        {/* Visible Form (AJAX submission) */}
+        <form
+          name="contact"
+          method="POST"
+          data-netlify="true"
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-gray-900 p-8 rounded-2xl shadow-lg"
+        >
+          {/* Required hidden input for Netlify */}
+          <input type="hidden" name="form-name" value="contact" />
+
+          <div>
+            <label htmlFor="name" className="block text-gray-300 mb-2">
+              Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              placeholder="Enter your name"
+              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="email" className="block text-gray-300 mb-2">
+              Email
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              placeholder="Enter your email"
+              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="message" className="block text-gray-300 mb-2">
+              Message
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows={6}
+              required
+              placeholder="Write your message..."
+              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-4 rounded-md bg-yellow-400 text-black font-medium hover:bg-yellow-500 transition"
           >
-            {/* Required hidden input for Netlify */}
-            <input type="hidden" name="form-name" value="contact" />
-            <input type="hidden" name="bot-field" />
-
-            <div>
-              <label htmlFor="name" className="block text-gray-300 mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                required
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-gray-300 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                required
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-gray-300 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                rows={6}
-                required
-                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-lg transition"
-            >
-              Send
-            </button>
-          </form>
+            Send Message
+          </button>
 
           {status === "success" && (
-            <p className="mt-4 text-green-400">✅ Thank you! Your message has been sent.</p>
+            <p className="text-green-400 mt-4">
+              ✅ Your message has been sent successfully!
+            </p>
           )}
           {status === "error" && (
-            <p className="mt-4 text-red-400">❌ Something went wrong. Please try again.</p>
+            <p className="text-red-400 mt-4">
+              ❌ Something went wrong. Please try again.
+            </p>
           )}
-        </div>
+        </form>
       </div>
     </section>
   );
