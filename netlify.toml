@@ -5,7 +5,6 @@
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# ✅ Enable forms processing
 [build.processing]
   skip_processing = false
 
