@@ -1,7 +1,32 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 export default function ContactSection() {
+  const [status, setStatus] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(data as any).toString(),
+      });
+
+      if (response.ok) {
+        window.location.href = "/thank-you";
+      } else {
+        setStatus("Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setStatus("Network error. Please try again later.");
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -20,14 +45,14 @@ export default function ContactSection() {
           method="POST"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
-          action="/thank-you"
+          onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Required hidden inputs for Netlify */}
+          {/* Hidden Netlify inputs */}
           <input type="hidden" name="form-name" value="contact" />
           <p className="hidden">
             <label>
-              Don’t fill this out if you’re human: <input name="bot-field" />
+              Don’t fill this out: <input name="bot-field" />
             </label>
           </p>
 
@@ -77,6 +102,11 @@ export default function ContactSection() {
             </button>
           </div>
         </form>
+
+        {/* Status message */}
+        {status && (
+          <p className="mt-4 text-center text-sm text-red-400">{status}</p>
+        )}
       </div>
     </section>
   );
