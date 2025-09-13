@@ -1,42 +1,37 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function ContactSection() {
-  const [status, setStatus] = useState<string | null>(null);
+export default function ContactPage() {
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const form = e.currentTarget;
     const formData = new FormData(form);
 
     try {
       const response = await fetch("/", {
         method: "POST",
-        body: new URLSearchParams(formData as any).toString(),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: formData,
       });
 
       if (response.ok) {
         setStatus("success");
-        form.reset();
+        form.reset(); // Clear form
       } else {
         setStatus("error");
       }
-    } catch {
+    } catch (err) {
       setStatus("error");
     }
   };
 
   return (
-    <section
-      id="contact"
-      className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12"
-    >
-      <div className="rounded-lg border border-gray-800 bg-gradient-to-r from-gray-800/60 to-gray-900 p-8">
-        <h3 className="text-2xl font-semibold text-white mb-4">Get In Touch</h3>
-        <p className="text-gray-300 mb-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-950">
+      <div className="w-full max-w-2xl p-8 rounded-2xl shadow-lg bg-gray-900">
+        <h2 className="text-2xl font-bold mb-2 text-white">Get In Touch</h2>
+        <p className="mb-6 text-gray-400">
           Fill out the form below and our team will get back to you shortly.
         </p>
 
@@ -45,64 +40,73 @@ export default function ContactSection() {
           method="POST"
           data-netlify="true"
           onSubmit={handleSubmit}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          className="space-y-4"
         >
+          {/* Netlify hidden input */}
           <input type="hidden" name="form-name" value="contact" />
 
-          <div className="flex flex-col">
-            <label className="text-gray-300 text-sm mb-2">Name</label>
+          <div>
+            <label htmlFor="name" className="block text-gray-300 mb-1">
+              Name
+            </label>
             <input
               type="text"
+              id="name"
               name="name"
-              placeholder="Enter your name"
-              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
+              placeholder="Enter your name"
+              className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
             />
           </div>
 
-          <div className="flex flex-col md:col-span-2">
-            <label className="text-gray-300 text-sm mb-2">Email</label>
+          <div>
+            <label htmlFor="email" className="block text-gray-300 mb-1">
+              Email
+            </label>
             <input
               type="email"
+              id="email"
               name="email"
-              placeholder="Enter your email"
-              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
+              placeholder="Enter your email"
+              className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
             />
           </div>
 
-          <div className="flex flex-col md:col-span-2">
-            <label className="text-gray-300 text-sm mb-2">Message</label>
+          <div>
+            <label htmlFor="message" className="block text-gray-300 mb-1">
+              Message
+            </label>
             <textarea
+              id="message"
               name="message"
               rows={5}
-              placeholder="Write your message..."
-              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
-            ></textarea>
+              placeholder="Write your message..."
+              className="w-full px-4 py-2 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+            />
           </div>
 
-          <div className="md:col-span-2">
-            <button
-              type="submit"
-              className="w-full rounded-md bg-orange-200 px-6 py-3 font-medium text-gray-900 hover:bg-orange-100 transition"
-            >
-              Send Message
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full py-3 rounded-md bg-yellow-400 text-black font-medium hover:bg-yellow-500 transition"
+          >
+            Send Message
+          </button>
         </form>
 
+        {/* Inline status messages */}
         {status === "success" && (
-          <p className="text-green-400 mt-4">
-            ✅ Thank you, we will reach you soon.
-          </p>
+          <span className="mt-4 block text-green-400">
+            ✅ Your message has been sent successfully!
+          </span>
         )}
         {status === "error" && (
-          <p className="text-red-400 mt-4">
-            ❌ Something went wrong, please try again.
-          </p>
+          <span className="mt-4 block text-red-400">
+            ❌ Something went wrong. Please try again.
+          </span>
         )}
       </div>
-    </section>
+    </div>
   );
 }

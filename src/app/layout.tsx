@@ -19,20 +19,6 @@ export default function RootLayout({
       <body className="bg-gray-950 text-gray-100">
         <Navbar />
         <main className="pt-16">{children}</main>
-
-        {/* 🔽 Hidden Netlify form for detection */}
-        <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          hidden
-        >
-          <input type="hidden" name="form-name" value="contact" />
-          <input type="text" name="name" />
-          <input type="tel" name="phone" />
-          <input type="email" name="email" />
-          <textarea name="message"></textarea>
-        </form>
       </body>
     </html>
   );
