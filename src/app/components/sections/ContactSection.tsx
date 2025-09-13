@@ -1,35 +1,4 @@
-"use client";
-
-import { useState } from "react";
-
 export default function ContactSection() {
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        body: new URLSearchParams(
-          Array.from(formData.entries()) as [string, string][]
-        ).toString(),
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      });
-
-      if (response.ok) {
-        setStatus("success");
-        form.reset();
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
-  };
-
   return (
     <section className="bg-gray-950 py-16">
       <div className="max-w-6xl mx-auto px-6">
@@ -43,10 +12,10 @@ export default function ContactSection() {
             name="contact"
             method="POST"
             data-netlify="true"
-            netlify-honeypot="bot-field"
+            data-netlify-honeypot="bot-field"
             className="space-y-6"
           >
-            {/* Required hidden input */}
+            {/* Netlify hidden fields */}
             <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="bot-field" />
 
@@ -59,8 +28,7 @@ export default function ContactSection() {
                 id="name"
                 name="name"
                 required
-                placeholder="Enter your name"
-                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               />
             </div>
 
@@ -73,8 +41,7 @@ export default function ContactSection() {
                 id="email"
                 name="email"
                 required
-                placeholder="Enter your email"
-                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               />
             </div>
 
@@ -87,29 +54,17 @@ export default function ContactSection() {
                 name="message"
                 rows={6}
                 required
-                placeholder="Write your message..."
-                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
+                className="w-full px-4 py-2 rounded-lg bg-gray-800 text-gray-100 border border-gray-700 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
               />
             </div>
 
             <button
               type="submit"
-              className="w-full py-4 rounded-md bg-yellow-400 text-black font-medium hover:bg-yellow-500 transition"
+              className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg shadow-lg transition"
             >
-              Send Message
+              Send
             </button>
           </form>
-
-          {status === "success" && (
-            <span className="mt-4 block text-green-400">
-              ✅ Your message has been sent successfully!
-            </span>
-          )}
-          {status === "error" && (
-            <span className="mt-4 block text-red-400">
-              ❌ Something went wrong. Please try again.
-            </span>
-          )}
         </div>
       </div>
     </section>
