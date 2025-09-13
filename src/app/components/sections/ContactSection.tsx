@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function ContactSection() {
   return (
     <section
@@ -12,13 +14,17 @@ export default function ContactSection() {
           Fill out the form below and our team will get back to you shortly.
         </p>
 
+        {/* 1. The `action` attribute is added to redirect to a success page after submission.
+          2. A hidden input field is used to inform Netlify of the form name. 
+        */}
         <form
           name="contact"
           method="POST"
           data-netlify="true"
+          action="/thank-you" 
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Hidden field required for Netlify */}
+          {/* A hidden input field to help Netlify identify the form */}
           <input type="hidden" name="form-name" value="contact" />
 
           {/* Name */}

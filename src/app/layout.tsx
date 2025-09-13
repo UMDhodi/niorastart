@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '../app/components/Navbar'
-import Footer from '../app/components/Footer'
 import type { Metadata } from "next";
 import "./globals.css";
 
