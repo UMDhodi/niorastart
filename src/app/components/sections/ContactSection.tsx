@@ -13,7 +13,9 @@ export default function ContactSection() {
     try {
       const response = await fetch("/", {
         method: "POST",
-        body: new URLSearchParams(formData as any).toString(), // 🔑 still works fine
+        body: new URLSearchParams(
+          Array.from(formData.entries()) as [string, string][]
+        ).toString(),
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
@@ -24,7 +26,6 @@ export default function ContactSection() {
         setStatus("error");
       }
     } catch {
-      // ✅ no `err` variable → no ESLint error
       setStatus("error");
     }
   };
