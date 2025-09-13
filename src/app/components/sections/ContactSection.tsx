@@ -2,26 +2,21 @@
 
 import { useState } from "react";
 
-export default function ContactSection() {
+export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    // Convert FormData to a plain object
-    const formDataObj: Record<string, string> = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value.toString();
-    });
-
     try {
-      const response = await fetch("/", {
+      const response = await fetch("https://formspree.io/f/xnnbropw", {
         method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formDataObj).toString(),
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
       });
 
       if (response.ok) {
@@ -36,90 +31,72 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="w-full bg-gray-950 py-16 px-6">
-      <div className="max-w-5xl mx-auto">
-        <h2 className="text-3xl font-bold text-white mb-4">Get In Touch</h2>
-        <p className="text-gray-400 mb-8">
-          Fill out the form below and we’ll get back to you shortly.
-        </p>
+    <section id="contact" className="bg-gray-950 py-16">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="w-full p-10 rounded-2xl shadow-lg bg-gray-900">
+          <h2 className="text-3xl font-bold mb-3 text-white">Get In Touch</h2>
+          <p className="mb-8 text-gray-400">
+            Fill out the form below and our team will get back to you shortly.
+          </p>
 
-        {/* Hidden form for Netlify build detection */}
-        <form name="contact" data-netlify="true" hidden>
-          <input type="text" name="name" />
-          <input type="email" name="email" />
-          <textarea name="message" />
-        </form>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label htmlFor="name" className="block text-gray-300 mb-2">
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                required
+                placeholder="Enter your name"
+                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-orange-200"
+              />
+            </div>
 
-        {/* Visible AJAX form */}
-        <form
-          name="contact"
-          method="POST"
-          data-netlify="true"
-          onSubmit={handleSubmit}
-          className="space-y-6 bg-gray-900 p-8 rounded-2xl shadow-lg"
-        >
-          <input type="hidden" name="form-name" value="contact" />
+            <div>
+              <label htmlFor="email" className="block text-gray-300 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                placeholder="Enter your email"
+                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-orange-200"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="name" className="block text-gray-300 mb-2">
-              Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              placeholder="Enter your name"
-              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
-            />
-          </div>
+            <div>
+              <label htmlFor="message" className="block text-gray-300 mb-2">
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                rows={6}
+                required
+                placeholder="Write your message..."
+                className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-orange-200"
+              />
+            </div>
 
-          <div>
-            <label htmlFor="email" className="block text-gray-300 mb-2">
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              placeholder="Enter your email"
-              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="message" className="block text-gray-300 mb-2">
-              Message
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              rows={6}
-              required
-              placeholder="Write your message..."
-              className="w-full px-4 py-3 rounded-md bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-yellow-400"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-4 rounded-md bg-yellow-400 text-black font-medium hover:bg-yellow-500 transition"
-          >
-            Send Message
-          </button>
+            <button
+              type="submit"
+              className="w-full py-4 rounded-md bg-orange-200 text-black font-medium hover:bg-orange-100 transition"
+            >
+              Send Message
+            </button>
+          </form>
 
           {status === "success" && (
-            <p className="text-green-400 mt-4">
-              ✅ Your message has been sent successfully!
-            </p>
+            <p className="mt-4 text-green-400">✅ Your message has been sent successfully!</p>
           )}
           {status === "error" && (
-            <p className="text-red-400 mt-4">
-              ❌ Something went wrong. Please try again.
-            </p>
+            <p className="mt-4 text-red-400">❌ Something went wrong. Please try again.</p>
           )}
-        </form>
+        </div>
       </div>
     </section>
   );
