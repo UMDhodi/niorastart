@@ -11,12 +11,10 @@ export default function ContactPage() {
     const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formspree.io/f/xnnbropw", {
+      const response = await fetch("/", {
         method: "POST",
-        headers: {
-          Accept: "application/json",
-        },
-        body: formData,
+        body: new URLSearchParams(formData as any).toString(),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
       });
 
       if (response.ok) {
@@ -32,7 +30,6 @@ export default function ContactPage() {
 
   return (
     <section className="bg-gray-950 py-16">
-      {/* container to match client feedback padding */}
       <div className="max-w-6xl mx-auto px-6">
         <div className="w-full p-10 rounded-2xl shadow-lg bg-gray-900">
           <h2 className="text-3xl font-bold mb-3 text-white">Get In Touch</h2>
@@ -40,7 +37,16 @@ export default function ContactPage() {
             Fill out the form below and our team will get back to you shortly.
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form
+            name="contact"
+            method="POST"
+            data-netlify="true"
+            onSubmit={handleSubmit}
+            className="space-y-6"
+          >
+            {/* Required hidden input for Netlify */}
+            <input type="hidden" name="form-name" value="contact" />
+
             <div>
               <label htmlFor="name" className="block text-gray-300 mb-2">
                 Name
