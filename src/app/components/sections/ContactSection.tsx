@@ -15,7 +15,9 @@ export default function ContactSection() {
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(formData as any).toString(),
+        body: new URLSearchParams(
+          Array.from(formData.entries()) as [string, string][]
+        ).toString(),
       });
 
       if (response.ok) {
@@ -24,7 +26,7 @@ export default function ContactSection() {
       } else {
         setStatus("error");
       }
-    } catch (error) {
+    } catch {
       setStatus("error");
     }
   };
@@ -37,14 +39,14 @@ export default function ContactSection() {
           Fill out the form below and we’ll get back to you shortly.
         </p>
 
-        {/* Netlify requires this hidden form for build-time parsing */}
+        {/* Hidden Netlify Form (so Netlify detects it at build time) */}
         <form name="contact" data-netlify="true" hidden>
           <input type="text" name="name" />
           <input type="email" name="email" />
           <textarea name="message" />
         </form>
 
-        {/* Visible Form (AJAX submission) */}
+        {/* Visible AJAX Form */}
         <form
           name="contact"
           method="POST"
