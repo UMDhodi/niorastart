@@ -20,7 +20,7 @@ export default function RootLayout({
         <Navbar />
         <main className="pt-16">{children}</main>
 
-        {/* 🔽 Hidden static Netlify form so submissions work */}
+        {/* 🔽 Hidden Netlify form for detection */}
         <form
           name="contact"
           method="POST"
