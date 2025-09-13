@@ -11,13 +11,17 @@ export default function ContactSection() {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
+    // Convert FormData to a plain object
+    const formDataObj: Record<string, string> = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value.toString();
+    });
+
     try {
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(
-          Array.from(formData.entries()) as [string, string][]
-        ).toString(),
+        body: new URLSearchParams(formDataObj).toString(),
       });
 
       if (response.ok) {
@@ -39,14 +43,14 @@ export default function ContactSection() {
           Fill out the form below and we’ll get back to you shortly.
         </p>
 
-        {/* Hidden Netlify Form (so Netlify detects it at build time) */}
+        {/* Hidden form for Netlify build detection */}
         <form name="contact" data-netlify="true" hidden>
           <input type="text" name="name" />
           <input type="email" name="email" />
           <textarea name="message" />
         </form>
 
-        {/* Visible AJAX Form */}
+        {/* Visible AJAX form */}
         <form
           name="contact"
           method="POST"
@@ -54,7 +58,6 @@ export default function ContactSection() {
           onSubmit={handleSubmit}
           className="space-y-6 bg-gray-900 p-8 rounded-2xl shadow-lg"
         >
-          {/* Required hidden input for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
 
           <div>
