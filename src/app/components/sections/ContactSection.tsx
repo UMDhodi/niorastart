@@ -14,7 +14,9 @@ export default function ContactSection() {
       const response = await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(data as any).toString(),
+        body: new URLSearchParams(
+          data as unknown as Record<string, string>
+        ).toString(),
       });
 
       if (response.ok) {
@@ -22,7 +24,7 @@ export default function ContactSection() {
       } else {
         setStatus("Something went wrong. Please try again.");
       }
-    } catch (err) {
+    } catch {
       setStatus("Network error. Please try again later.");
     }
   };
