@@ -1,4 +1,30 @@
+"use client";
+
+import { useState } from "react";
+
 export default function ContactSection() {
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData as any).toString(),
+      });
+      setStatus("success");
+      form.reset();
+    } catch (err) {
+      console.error(err);
+      setStatus("error");
+    }
+  };
+
   return (
     <section className="bg-gray-950 py-16">
       <div className="max-w-6xl mx-auto px-6">
@@ -13,9 +39,10 @@ export default function ContactSection() {
             method="POST"
             data-netlify="true"
             data-netlify-honeypot="bot-field"
+            onSubmit={handleSubmit}
             className="space-y-6"
           >
-            {/* Netlify hidden fields */}
+            {/* Required hidden input for Netlify */}
             <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="bot-field" />
 
@@ -65,6 +92,13 @@ export default function ContactSection() {
               Send
             </button>
           </form>
+
+          {status === "success" && (
+            <p className="mt-4 text-green-400">✅ Thank you! Your message has been sent.</p>
+          )}
+          {status === "error" && (
+            <p className="mt-4 text-red-400">❌ Something went wrong. Please try again.</p>
+          )}
         </div>
       </div>
     </section>
