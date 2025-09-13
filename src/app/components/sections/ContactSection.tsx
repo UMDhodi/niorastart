@@ -1,4 +1,5 @@
-import React from 'react';
+"use client";
+import React from "react";
 
 export default function ContactSection() {
   return (
@@ -14,18 +15,21 @@ export default function ContactSection() {
           Fill out the form below and our team will get back to you shortly.
         </p>
 
-        {/* 1. The `action` attribute is added to redirect to a success page after submission.
-          2. A hidden input field is used to inform Netlify of the form name. 
-        */}
         <form
           name="contact"
           method="POST"
           data-netlify="true"
-          action="/thank-you" 
+          data-netlify-honeypot="bot-field"
+          action="/thank-you"
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* A hidden input field to help Netlify identify the form */}
+          {/* Required hidden inputs for Netlify */}
           <input type="hidden" name="form-name" value="contact" />
+          <p className="hidden">
+            <label>
+              Don’t fill this out if you’re human: <input name="bot-field" />
+            </label>
+          </p>
 
           {/* Name */}
           <div className="flex flex-col">
@@ -36,17 +40,6 @@ export default function ContactSection() {
               placeholder="Enter your name"
               className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
-            />
-          </div>
-
-          {/* Phone */}
-          <div className="flex flex-col">
-            <label className="text-gray-300 text-sm mb-2">Phone</label>
-            <input
-              type="tel"
-              name="phone"
-              placeholder="Enter your phone number"
-              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
             />
           </div>
 
