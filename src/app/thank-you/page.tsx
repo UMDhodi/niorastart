@@ -1,3 +1,5 @@
+import { Link } from "lucide-react";
+
 export default function ThankYouPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center p-24">
@@ -5,9 +7,10 @@ export default function ThankYouPage() {
       <p className="text-lg text-gray-300">
         Your message has been sent successfully.
       </p>
-      <a href="/" className="mt-8 text-orange-200 hover:underline">
-        Go back to the homepage
-      </a>
+      <Link href="/" className="mt-8 text-orange-200 hover:underline">
+        <a  >Go back to the homepage</a>
+      </Link>
+      
     </div>
   );
 }
