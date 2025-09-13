@@ -1,34 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 
 export default function ContactSection() {
-  const [status, setStatus] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const form = e.currentTarget;
-    const data = new FormData(form);
-
-    try {
-      const response = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(
-          data as unknown as Record<string, string>
-        ).toString(),
-      });
-
-      if (response.ok) {
-        window.location.href = "/thank-you";
-      } else {
-        setStatus("Something went wrong. Please try again.");
-      }
-    } catch {
-      setStatus("Network error. Please try again later.");
-    }
-  };
-
   return (
     <section
       id="contact"
@@ -47,7 +20,7 @@ export default function ContactSection() {
           method="POST"
           data-netlify="true"
           data-netlify-honeypot="bot-field"
-          onSubmit={handleSubmit}
+          action="/thank-you"
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
           {/* Hidden Netlify inputs */}
@@ -67,6 +40,17 @@ export default function ContactSection() {
               placeholder="Enter your name"
               className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
               required
+            />
+          </div>
+
+          {/* Phone */}
+          <div className="flex flex-col">
+            <label className="text-gray-300 text-sm mb-2">Phone</label>
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Enter your phone number"
+              className="rounded-md bg-gray-800 border border-gray-700 px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-orange-300"
             />
           </div>
 
@@ -104,11 +88,6 @@ export default function ContactSection() {
             </button>
           </div>
         </form>
-
-        {/* Status message */}
-        {status && (
-          <p className="mt-4 text-center text-sm text-red-400">{status}</p>
-        )}
       </div>
     </section>
   );
